@@ -1,6 +1,6 @@
 package ticket
 
-func read() {
+func Read() {
 
 	// reads a ticket
 

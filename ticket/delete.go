@@ -1,6 +1,6 @@
 package ticket
 
-func delete() {
+func Delete() {
 	// delete selected ticket
 
 }

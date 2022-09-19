@@ -1,6 +1,6 @@
 package ticket
 
-func update() {
+func Update() {
 
 	// updates current ticket
 

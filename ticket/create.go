@@ -1,6 +1,6 @@
 package ticket
 
-func create() {
+func Create() {
 
 	// create a new ticket
 
