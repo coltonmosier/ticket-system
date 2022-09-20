@@ -7,7 +7,7 @@ import (
 // struct holding ticket information
 type Ticket struct {
 	Priority    int
-	ID          int
+	Index          int
 	Description string
 	CreatedAt   time.Time
 	UpdatedAt   time.Time

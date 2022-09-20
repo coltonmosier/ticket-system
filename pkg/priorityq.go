@@ -2,18 +2,18 @@ package pkg
 
 // file for priority queue functions
 import (
-	"container/heap"
-	"github.com/coltonmosier/models"
+	// "container/heap"
+	"github.com/coltonmosier/ticket-service/internal/models"
 )
 
-type PriorityQueue []*Ticket
+type PriorityQueue []*models.Ticket
 
 func (pq PriorityQueue) Len() int { return len(pq) }
 
 func (pq PriorityQueue) Less(i, j int) bool {
 	// We want Pop to give us the lowest based on expiration number as the priority
 	// The lower the expiry, the higher the priority
-	return pq[i].Expiry < pq[j].Expiry
+	return pq[i].Priority < pq[j].Priority
 }
 
 // We just implement the pre-defined function in interface of heap.
@@ -29,7 +29,7 @@ func (pq *PriorityQueue) Pop() interface{} {
 
 func (pq *PriorityQueue) Push(x interface{}) {
 	n := len(*pq)
-	item := x.(*Ticket)
+	item := x.(*models.Ticket)
 	item.Index = n
 	*pq = append(*pq, item)
 }
