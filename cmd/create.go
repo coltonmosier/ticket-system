@@ -14,18 +14,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type ticket struct {
-	ID           int
-	User         string
-	Category     string
-	Description  string
-	UpdateReason string
-	Completed    bool
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+type Ticket struct {
+	ID           int       `json:"id"`
+	User         string    `json:"user"`
+	Category     string    `json:"category"`
+	Description  string    `json:"description"`
+	UpdateReason string    `json:"updateReason"`
+	Completed    bool      `json:"completed"`
+	CreatedAt    time.Time `json:"createdAt"`
+	UpdatedAt    time.Time `json:"updatedAt"`
 }
 
-type tickets []ticket
+type tickets []Ticket
 
 // createCmd represents the create command
 var createCmd = &cobra.Command{
@@ -37,9 +37,9 @@ var createCmd = &cobra.Command{
     User: <username>`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("create called")
-		newTicket := ticket{}
-		createTicket(&newTicket)
-		writeTicket(newTicket)
+		var newTicket tickets
+		newTicket.createTicket()
+		newTicket.writeTicket()
 	},
 }
 
@@ -47,7 +47,7 @@ func init() {
 	rootCmd.AddCommand(createCmd)
 }
 
-func createTicket(t *ticket) {
+func (t *tickets) createTicket() {
 	var user string
 	var cat string
 	var id int
@@ -61,7 +61,7 @@ func createTicket(t *ticket) {
 	fmt.Print("Enter description: ")
 	desc, _ := scan.ReadString('\n')
 
-	newTicket := ticket{
+	newTicket := Ticket{
 		ID:          id,
 		User:        user,
 		Category:    cat,
@@ -71,11 +71,11 @@ func createTicket(t *ticket) {
 		UpdatedAt:   time.Time{},
 	}
 
-	*t = newTicket
+	*t = append(*t, newTicket)
 
 }
 
-func writeTicket(t ticket) {
+func (t *tickets) writeTicket() {
 	id := t.ID
 	data, err := json.Marshal(t)
 	if err != nil {

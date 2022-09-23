@@ -5,9 +5,16 @@ package cmd
 
 import (
 	"fmt"
+    "encoding/json"
+    "io"
+    "bufio"
+
+	"github.com/alexeyco/simpletable"
 
 	"github.com/spf13/cobra"
 )
+
+var ticket Ticket
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
@@ -21,4 +28,23 @@ var listCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+}
+
+// list reads tickets from a file and prints them in a nice table
+func list() {
+    table := simpletable.New()
+
+    table.Header = &simpletable.Header{
+        Cells: []*simpletable.Cell{
+        }
+    }
+    
+}
+
+func readTicket(filename string) *Ticket {
+
+    err := json.Unmarshal()
+    if err != nil {
+        panic(err)
+    }
 }
