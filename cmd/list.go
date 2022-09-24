@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var ticket Ticket
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
@@ -36,10 +35,12 @@ func list() {
 func (t *Tickets) readTicket(fileName string) {
 	bytes, err := os.ReadFile(fileName)
 	Check(err)
+	if len(bytes) == 0{
+		return
+	}
 
 	err = json.Unmarshal(bytes, t)
-	fmt.Println(err)
-	//Check(err)
+	Check(err)
 }
 
 func Check(e error) {

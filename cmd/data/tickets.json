@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "user": "test",
+        "category": "other",
+        "description": "test",
+        "updateReason": "",
+        "completed": false,
+        "createdAt": "2022-09-23T20:56:07.2331583-05:00",
+        "updatedAt": "0001-01-01T00:00:00Z"
+    },
+    {
+        "id": 2,
+        "user": "balls",
+        "category": "network_issue",
+        "description": "my balls are blocking the signal",
+        "updateReason": "",
+        "completed": false,
+        "createdAt": "2022-09-23T20:56:22.7362773-05:00",
+        "updatedAt": "0001-01-01T00:00:00Z"
+    }
+]

@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -38,9 +39,10 @@ var createCmd = &cobra.Command{
     User: <username>`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("create called")
-		newTicket.readTicket("data/tickets.json")
+		newTicket.readTicket("C:/Go Projects/ticket-system/cmd/data/tickets.json")
+		fmt.Println(newTicket)
 		newTicket.createTicket()
-		newTicket.writeTicket("data/tickets.json")
+		newTicket.writeTicket("C:/Go Projects/ticket-system/cmd/data/tickets.json")
 	},
 }
 
@@ -59,7 +61,11 @@ func (t *Tickets) createTicket() {
 	fmt.Print("Enter description: ")
 	desc, _ := scan.ReadString('\n')
 
+	// remove white space before and after description string
+	desc = strings.TrimSpace(desc)
+
 	nt := Ticket{
+		ID:          len(*t) + 1,
 		User:        user,
 		Category:    cat,
 		Description: desc,
@@ -72,13 +78,14 @@ func (t *Tickets) createTicket() {
 
 }
 
+// writeTicket takes the slice of ticket and marshals the data to print to a file for storage.
 func (t *Tickets) writeTicket(fileName string) {
 	for i, v := range *t {
 		i++
 		v.ID = i
-		res, err := json.Marshal(v)
-		Check(err)
-		err = os.WriteFile(fileName, res, 0644)
-		Check(err)
 	}
+	res, err := json.Marshal(t)
+	Check(err)
+	os.WriteFile(fileName, res, 0644)
+	Check(err)
 }
