@@ -28,9 +28,9 @@ func init() {
 }
 
 // list reads tickets from a file and prints them in a nice table
-func list() {
+// func list() {
 
-}
+// }
 
 func (t *Tickets) readTicket(fileName string) {
 	bytes, err := os.ReadFile(fileName)
