@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -25,7 +24,9 @@ type Ticket struct {
 	UpdatedAt    time.Time `json:"updatedAt"`
 }
 
-type tickets []Ticket
+type Tickets []Ticket
+
+var newTicket Tickets
 
 // createCmd represents the create command
 var createCmd = &cobra.Command{
@@ -37,9 +38,9 @@ var createCmd = &cobra.Command{
     User: <username>`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("create called")
-		var newTicket tickets
+		newTicket.readTicket("data/tickets.json")
 		newTicket.createTicket()
-		newTicket.writeTicket()
+		newTicket.writeTicket("data/tickets.json")
 	},
 }
 
@@ -47,13 +48,10 @@ func init() {
 	rootCmd.AddCommand(createCmd)
 }
 
-func (t *tickets) createTicket() {
+func (t *Tickets) createTicket() {
 	var user string
 	var cat string
-	var id int
 	scan := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter ID: ")
-	fmt.Scan(&id)
 	fmt.Print("Enter username: ")
 	fmt.Scanln(&user)
 	fmt.Print("Enter category [password_help, network_issue, other]: ")
@@ -61,8 +59,7 @@ func (t *tickets) createTicket() {
 	fmt.Print("Enter description: ")
 	desc, _ := scan.ReadString('\n')
 
-	newTicket := Ticket{
-		ID:          id,
+	nt := Ticket{
 		User:        user,
 		Category:    cat,
 		Description: desc,
@@ -71,20 +68,17 @@ func (t *tickets) createTicket() {
 		UpdatedAt:   time.Time{},
 	}
 
-	*t = append(*t, newTicket)
+	*t = append(*t, nt)
 
 }
 
-func (t *tickets) writeTicket() {
+func (t *Tickets) writeTicket(fileName string) {
 	for i, v := range *t {
-		
+		i++
+		v.ID = i
+		res, err := json.Marshal(v)
+		Check(err)
+		err = os.WriteFile(fileName, res, 0644)
+		Check(err)
 	}
-	data, err := json.Marshal(t)
-	if err != nil {
-		fmt.Println("error marshalling data")
-	}
-	file := "data/ticket" + strconv.Itoa(id) + ".json"
-
-	err = os.WriteFile(file, data, 0644)
-
 }
