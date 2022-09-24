@@ -1,6 +1,3 @@
-/*
-Copyright © 2022 Colton Mosier <coltonmosier44@gmail.com>
-*/
 package cmd
 
 import (

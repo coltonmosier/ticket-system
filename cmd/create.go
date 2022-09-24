@@ -1,11 +1,7 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
@@ -13,21 +9,6 @@ import (
 
 	"github.com/spf13/cobra"
 )
-
-type Ticket struct {
-	ID           int       `json:"id"`
-	User         string    `json:"user"`
-	Category     string    `json:"category"`
-	Description  string    `json:"description"`
-	UpdateReason string    `json:"updateReason"`
-	Completed    bool      `json:"completed"`
-	CreatedAt    time.Time `json:"createdAt"`
-	UpdatedAt    time.Time `json:"updatedAt"`
-}
-
-type Tickets []Ticket
-
-var newTicket Tickets
 
 // createCmd represents the create command
 var createCmd = &cobra.Command{
@@ -38,11 +19,10 @@ var createCmd = &cobra.Command{
     Description: <description of the issue.>
     User: <username>`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("create called")
-		newTicket.readTicket("C:/Go Projects/ticket-system/cmd/data/tickets.json")
-		fmt.Println(newTicket)
+		fmt.Print("Create a new ticket:\n\n")
+		newTicket.readTicket("data/tickets.json")
 		newTicket.createTicket()
-		newTicket.writeTicket("C:/Go Projects/ticket-system/cmd/data/tickets.json")
+		newTicket.writeTicket("data/tickets.json")
 	},
 }
 
@@ -76,16 +56,4 @@ func (t *Tickets) createTicket() {
 
 	*t = append(*t, nt)
 
-}
-
-// writeTicket takes the slice of ticket and marshals the data to print to a file for storage.
-func (t *Tickets) writeTicket(fileName string) {
-	for i, v := range *t {
-		i++
-		v.ID = i
-	}
-	res, err := json.Marshal(t)
-	Check(err)
-	os.WriteFile(fileName, res, 0644)
-	Check(err)
 }
