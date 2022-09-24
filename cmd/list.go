@@ -6,7 +6,7 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 	// "github.com/alexeyco/simpletable"
 
 	"github.com/spf13/cobra"
@@ -34,7 +34,7 @@ func list() {
 }
 
 func (t *Tickets) readTicket(fileName string) {
-	bytes, err := ioutil.ReadFile(fileName)
+	bytes, err := os.ReadFile(fileName)
 	Check(err)
 
 	err = json.Unmarshal(bytes, t)
