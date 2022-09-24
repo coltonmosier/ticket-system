@@ -4,12 +4,10 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
-    "encoding/json"
-    "io"
-    "bufio"
-
-	"github.com/alexeyco/simpletable"
+	"io/ioutil"
+	// "github.com/alexeyco/simpletable"
 
 	"github.com/spf13/cobra"
 )
@@ -32,19 +30,20 @@ func init() {
 
 // list reads tickets from a file and prints them in a nice table
 func list() {
-    table := simpletable.New()
 
-    table.Header = &simpletable.Header{
-        Cells: []*simpletable.Cell{
-        }
-    }
-    
 }
 
-func readTicket(filename string) *Ticket {
+func (t *Tickets) readTicket(fileName string) {
+	bytes, err := ioutil.ReadFile(fileName)
+	Check(err)
 
-    err := json.Unmarshal()
-    if err != nil {
-        panic(err)
-    }
+	err = json.Unmarshal(bytes, t)
+	fmt.Println(err)
+	//Check(err)
+}
+
+func Check(e error) {
+	if e != nil {
+		panic(e)
+	}
 }
