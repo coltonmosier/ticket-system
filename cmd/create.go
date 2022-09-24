@@ -76,7 +76,9 @@ func (t *tickets) createTicket() {
 }
 
 func (t *tickets) writeTicket() {
-	id := t.ID
+	for i, v := range *t {
+		
+	}
 	data, err := json.Marshal(t)
 	if err != nil {
 		fmt.Println("error marshalling data")
