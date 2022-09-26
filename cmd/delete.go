@@ -33,7 +33,9 @@ func (t *Tickets) delete(args []string) {
 		fmt.Println("What ticket would you like to delete?")
 		fmt.Print("ID: ")
 		fmt.Scan(&id)
-		// id, _ := strconv.Atoi(id)
+		if id < 1 || id > len(temp) {
+			fmt.Printf("%s", red(fmt.Sprintf("Ticket #%v does not exist\n", args[0])))
+		}
 		*t = append(temp[:id-1], temp[id:]...)
 	} else if len(args) == 1 {
 		id, _ = strconv.Atoi(args[0])
@@ -41,7 +43,8 @@ func (t *Tickets) delete(args []string) {
 			fmt.Printf("%s", red(fmt.Sprintf("Ticket #%v does not exist\n", args[0])))
 		}
 		*t = append(temp[:id-1], temp[id:]...)
+		return
 	} else {
-		fmt.Printf("%v\n", red("Can only delete one Ticket at a time."))
+		fmt.Printf("%s", red("error: can only delete 1 ticket at a time."))
 	}
 }
